@@ -8,6 +8,7 @@ import LikePage from './pages/like/LikePage'
 import ProductsPage from './pages/products/ProductsPage'
 import RegisterPage from './pages/register/RegisterPage'
 import SinglePage from './pages/single/SinglePage'
+import OrderPage from './pages/order/OrderPage'
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           <Route path='products' element={<ProductsPage/>} />
           <Route path='register' element={<RegisterPage/>} />
           <Route path='products/:id' element={<SinglePage/>} />
+          <Route path='order' element={<OrderPage/>}/>
         </Route>
       </Routes>
     </BrowserRouter>

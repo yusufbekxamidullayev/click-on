@@ -1509,6 +1509,11 @@ lru-cache@^5.1.1:
   dependencies:
     yallist "^3.0.2"
 
+lucide-react@^0.562.0:
+  version "0.562.0"
+  resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-0.562.0.tgz#217796c2f57624f012b484ea7f08505067c90d51"
+  integrity sha512-82hOAu7y0dbVuFfmO4bYF1XEwYk/mEbM5E+b1jgci/udUBEE/R7LF5Ip0CCEmXe8AybRM8L+04eP+LGZeDvkiw==
+
 magic-string@^0.30.21:
   version "0.30.21"
   resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.30.21.tgz#56763ec09a0fa8091df27879fd94d19078c00d91"
@@ -1676,6 +1681,11 @@ react-router@7.12.0:
   dependencies:
     cookie "^1.0.1"
     set-cookie-parser "^2.6.0"
+
+react-toast@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/react-toast/-/react-toast-1.0.3.tgz#cbe2cd946c5762736642dd2981a7e5d666c5448e"
+  integrity sha512-gL3+O5hlLaoBmd36oXWKrjFeUyLCMQ04AIh48LrnUvdeg2vhJQ0E803TgVemgJvYUXKlutMVn9+/QS2DDnk26Q==
 
 react@^19.2.0:
   version "19.2.3"

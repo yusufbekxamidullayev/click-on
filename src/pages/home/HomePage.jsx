@@ -7,7 +7,7 @@ import { BsFillCartDashFill, BsFillCartPlusFill } from 'react-icons/bs'
 import { useDispatch, useSelector } from 'react-redux'
 import { addToCart, removeToCart } from '../../features/cartSlice'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { EffectFade, Autoplay, Pagination, Navigation } from 'swiper/modules'
+import { EffectFade, Autoplay, Pagination } from 'swiper/modules'
 
 import 'swiper/css'
 import 'swiper/css/effect-fade'
@@ -15,13 +15,13 @@ import 'swiper/css/pagination'
 import { FaArrowRightLong } from 'react-icons/fa6'
 import { CiCreditCard1, CiTrophy } from 'react-icons/ci'
 import { IoHeadsetOutline } from 'react-icons/io5'
+import ShopCategorySwiper from '../../components/swiper/Swiper'
 
 
 const HomePage = () => {
     const dispatch = useDispatch()
-    const cart = useSelector((state) => state.cart)
+    const cart = useSelector((state) => state.cart.cart)
     const { data } = useGet({ url: "products?limit=194" })
-    const { data: categories } = useGet({ url: "categories" });
     const products = data?.products;
     const slicedProducts = products?.slice(105, 113)
     const product = products ? products[0] : ""
@@ -29,7 +29,8 @@ const HomePage = () => {
     return (
         <>
             <section className='pb-[25px]'>
-                <div className='container mx-auto'>
+                <div className='container mx-auto px-2 md:px-0 2xl:px-33 w-full
+                    transition-all duration-500 ease-in-out'>
                     <div className='flex gap-5'>
                         <div>
                             <Swiper
@@ -91,7 +92,7 @@ const HomePage = () => {
                                 </SwiperSlide>
                             </Swiper>
                         </div>
-                        <div>
+                        <div className='flex flex-col gap-5'>
                             <div className="relative overflow-hidden w-[450px] h-[250px] bg-black rounded-[6px] px-[40px] py-[60px] ">
                                 <p className="font-[Public_Sans] text-[#EBC80C] text-[14px] font-[500] leading-[20px] tracking-[0px] uppercase ">Summer Sales</p>
                                 <h3 className="font-[Public_Sans] w-[150px] pb-[20px] pt-[5px] font-[600] text-[24px] leading-[32px] tracking-[0px] text-[white] ">New Google Pixel 6 Pro</h3>
@@ -240,7 +241,7 @@ const HomePage = () => {
                                             </button>
 
                                             {/* CENTER */}
-                                            {cart.find((item) => item.id === el.id) ? (
+                                            {cart?.find((item) => item.id === el.id) ? (
                                                 <button
                                                     onClick={() => dispatch(removeToCart(el))}
                                                     className="bg-white p-3 rounded-full shadow
@@ -294,9 +295,38 @@ const HomePage = () => {
                             ))}
                         </div>
                     </div>
-                    <h1 className='text-[32px] text-[#191C1F] font-semibold text-center pt-[70px]'>Shop with Categorys</h1>
+                    <ShopCategorySwiper />
+                    <div className='flex items-center gap-5 pt-[70px]'>
+                        <div className="flex justify-between w-[50%] bg-[#F2F4F5] p-[30px] rounded-[4px] ">
+                            <div className="max-w-[280px] w-full">
+                                <span className=" bg-[#2DA5F3] text-white  px-[10px] py-[5px] rounded-[3px] font-[Public_Sans] font-[600] text-[14px] leading-[20px] tracking-[0px] ">INTRODUCING</span>
+                                <h3 className="font-[Public_Sans] py-[15px] font-[600] text-[32px] leading-[40px] tracking-[0px] ">New Apple Homepod Mini</h3>
+                                <p className="font-[Public_Sans] pb-[20px] font-[400] text-[16px] leading-[24px] text-[#475156] tracking-[0px]">Jam-packed with innovation, HomePod mini delivers unexpectedly.</p>
+                                <button className='flex items-center gap-2 w-[150px] h-[43px] bg-[#FA8232] rounded-[4px] justify-center cursor-pointer'>
+                                    <p className='text-[15px] text-[#FFFFFF] font-semibold'>Shop now</p>
+                                    <p><FaArrowRightLong className='text-[#FFFFFF] text-[14px]' /></p>
+                                </button>
+                            </div>
+                            <div>
+                                <img src="/alisa.png" alt="" />
+                            </div>
+                        </div>
+                        <div className="flex relative overflow-hidden justify-between w-[50%] bg-[#191C1F] p-[30px] rounded-[4px] ">
+                            <div className="max-w-[280px] w-full">
+                                <span className=" bg-[#2DA5F3] text-white  px-[10px] py-[5px] rounded-[3px] font-[Public_Sans] font-[600] text-[14px] leading-[20px] tracking-[0px] ">INTRODUCING NEW</span>
+                                <h3 className="font-[Public_Sans] py-[15px] text-white font-[600] text-[32px] leading-[40px] tracking-[0px] ">Xiaomi Mi 11 Ultra 12GB+256GB</h3>
+                                <p className="font-[Public_Sans] pb-[20px] font-[400] text-[16px] leading-[24px] text-[#ADB7BC] tracking-[0px]">*Data provided by internal laboratories. Industry measurment.</p>
+                                <button className='flex items-center gap-2 w-[150px] h-[43px] bg-[#FA8232] rounded-[4px] justify-center cursor-pointer'>
+                                    <p className='text-[15px] text-[#FFFFFF] font-semibold'>Shop now</p>
+                                    <p><FaArrowRightLong className='text-[#FFFFFF] text-[14px]' /></p>
+                                </button>
+                            </div>
+                            <div className="absolute w-[240px] right-8 ">
+                                <img className="w-full h-full object-cover " src="/telefon.png" alt="Shar"></img>
+                            </div>
+                        </div>
+                    </div>
 
-                    
                 </div>
             </section>
         </>

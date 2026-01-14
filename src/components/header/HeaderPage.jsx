@@ -8,7 +8,7 @@ import { HiBars3 } from "react-icons/hi2";
 import { useSelector } from "react-redux";
 
 const Header = () => {
-    const cart = useSelector((state) => state.cart)
+    const cart = useSelector((state) => state.cart.cart)
     const [language, setLanguage] = useState("Eng");
     const [currency, setCurrency] = useState("USD");
     const [hideTopBar, setHideTopBar] = useState(false);
