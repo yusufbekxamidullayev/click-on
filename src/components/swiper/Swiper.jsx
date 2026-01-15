@@ -33,37 +33,48 @@ const ShopCategorySwiper = () => {
             </div>
 
             <Swiper
-                modules={[Navigation, Autoplay]}
-                navigation={{
-                    prevEl: ".category-prev",
-                    nextEl: ".category-next",
-                }}
-                autoplay={{ delay: 2500, disableOnInteraction: false }}
-                loop={true}
-                spaceBetween={15}
-                slidesPerView={6}
+                spaceBetween={20}
                 breakpoints={{
-                    0: { slidesPerView: 2 },
-                    480: { slidesPerView: 2 },
-                    768: { slidesPerView: 3 },
-                    1024: { slidesPerView:6 },
+                    320: {
+                        slidesPerView: 2,
+                        spaceBetween: 10,
+                    },
+                    640: {
+                        slidesPerView: 3,
+                        spaceBetween: 15,
+                    },
+                    1024: {
+                        slidesPerView: 4,
+                        spaceBetween: 20,
+                    },
+                    1280: {
+                        slidesPerView: 6,
+                        spaceBetween: 24,
+                    },
+                    1536: {
+                        slidesPerView: 6,
+                        spaceBetween: 28,
+                    },
                 }}
             >
+
                 {slicedProducts?.map((el) => (
                     <SwiperSlide key={el.id}>
                         <Link to={`/products/${el.id}`}>
-                            <div className="max-w-[200px] h-[230px] rounded-[4px] border-[1px] border-[#E4E7E9] pt-[20px] flex items-center flex-col">
+                            <div className="w-full max-w-[220px] lg:max-w-[240px] xl:max-w-[260px] h-auto rounded border border-[#E4E7E9] flex flex-col items-center pt-4 pb-6">
                                 <img
-                                    className="w-[148px] h-[148px] object-contain"
+                                    className="w-[140px] md:w-[160px] lg:w-[180px] xl:w-[200px] h-auto object-contain"
                                     src={el.thumbnail}
                                     alt={el.title}
                                 />
-                                <p className="text-[16px] line-clamp-1 text-[#191C1F] font-semibold pt-[16px] text-center">
+
+                                <p className="text-center text-[14px] sm:text-[15px] md:text-[16px] font-semibold text-[#191C1F] pt-3 line-clamp-1">
                                     {el.title}
                                 </p>
                             </div>
                         </Link>
                     </SwiperSlide>
+
                 ))}
             </Swiper>
         </div>

@@ -1,11 +1,11 @@
 import React from 'react'
 import useGet from '../../hooks/useGet'
-import { FaArrowRight, FaRegHeart } from 'react-icons/fa'
+import { FaArrowRight, FaHeart, FaRegHeart } from 'react-icons/fa'
 import { FiEye, FiShoppingCart } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import { BsFillCartDashFill, BsFillCartPlusFill } from 'react-icons/bs'
 import { useDispatch, useSelector } from 'react-redux'
-import { addToCart, removeToCart } from '../../features/cartSlice'
+import { addToCart, addToHeart, removeToCart, removeToHeart } from '../../features/cartSlice'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { EffectFade, Autoplay, Pagination } from 'swiper/modules'
 
@@ -21,6 +21,7 @@ import ShopCategorySwiper from '../../components/swiper/Swiper'
 const HomePage = () => {
     const dispatch = useDispatch()
     const cart = useSelector((state) => state.cart.cart)
+    const heart = useSelector((state) => state.cart.heart)
     const { data } = useGet({ url: "products?limit=194" })
     const products = data?.products;
     const slicedProducts = products?.slice(105, 113)
@@ -29,7 +30,7 @@ const HomePage = () => {
     return (
         <>
             <section className='pb-[25px]'>
-                <div className='container mx-auto md:px-4 lg:px-6 2xl:px-33 w-full transition-all duration-500 ease-in-out'>
+                <div className='container mx-auto px-2 md:px-0 2xl:px-33 w-full transition-all duration-500 ease-in-out'>
                     {/* Hero Section */}
                     <div className='flex flex-col lg:flex-row gap-5 mb-8'>
                         <div className='w-full lg:w-auto'>
@@ -221,9 +222,19 @@ const HomePage = () => {
                                         <div className="absolute inset-0 bg-gray-500/40 backdrop-blur-sm rounded-md transition-all duration-300 -z-10" />
 
                                         <div className="flex gap-2 sm:gap-4 z-20">
-                                            <button className="bg-white p-2 sm:p-3 rounded-full shadow -translate-x-6 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300 hover:bg-[#FA8232] hover:text-white">
-                                                <FaRegHeart className='text-sm sm:text-base' />
-                                            </button>
+                                            {heart?.find((item) => item.id === el.id) ? (
+                                                <button
+                                                onClick={() => dispatch(removeToHeart(el))}
+                                                className="bg-white p-2 sm:p-3 rounded-full shadow -translate-x-6 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300 hover:bg-[#FA8232] hover:text-white">
+                                                    <FaHeart className='text-sm text-[red] sm:text-base' />
+                                                </button>
+                                            ) : (
+                                                    <button
+                                                    onClick={() => dispatch(addToHeart(el))}
+                                                     className="bg-white p-2 sm:p-3 rounded-full shadow -translate-x-6 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300 hover:bg-[#FA8232] hover:text-white">
+                                                        <FaRegHeart className='text-sm sm:text-base' />
+                                                    </button>
+                                            )}
 
                                             {cart?.find((item) => item.id === el.id) ? (
                                                 <button

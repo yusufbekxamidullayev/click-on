@@ -1,14 +1,18 @@
 import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+
+import './header.css'
 
 // react-icons
 import { FiSearch, FiShoppingCart } from "react-icons/fi";
-import { AiOutlineHeart, AiOutlineUser } from "react-icons/ai";
+import { AiOutlineHeart, AiOutlineHome, AiOutlineUser } from "react-icons/ai";
 import { HiBars3 } from "react-icons/hi2";
 import { useSelector } from "react-redux";
+import { FaRegHeart } from "react-icons/fa";
 
 const Header = () => {
     const cart = useSelector((state) => state.cart.cart)
+    const heart = useSelector((state) => state.cart.heart)
     const [language, setLanguage] = useState("Eng");
     const [currency, setCurrency] = useState("USD");
     const [hideTopBar, setHideTopBar] = useState(false);
@@ -133,14 +137,53 @@ const Header = () => {
                                 </span>
                             </Link>
                         </div>
-                        <Link to="/like"><AiOutlineHeart className="text-white text-[29px]" /></Link>
-                        <Link to="/register"><AiOutlineUser className="text-white text-[29px]" /></Link>
+                        <Link to="/like" className="relative inline-block">
+                            <AiOutlineHeart className="text-white text-[29px]" />
+
+                            <span className="absolute bottom-5 left-5 w-[20px] h-[20px]  bg-white text-[#1B6392] text-[12px] font-semibold rounded-full flex items-center justify-center">
+                                {heart?.length}
+                            </span>
+                        </Link>                        <Link to="/register"><AiOutlineUser className="text-white text-[29px]" /></Link>
                     </div>
 
                     {/* 👇 here */}
                     <HiBars3 className="block lg:hidden text-white text-3xl" />
                 </div>
 
+                <div className="fixed w-full z-10 bottom-0 bg-[#1B6392] flex items-center justify-between px-2 py-1 shadow-[0_-4px_6px_-2px_rgba(0,0,0,0.25)] shadow-[white] sm:hidden">
+                    <NavLink to={"/"} className="flex flex-col items-center">
+                        <AiOutlineHome className="text-[24px] text-[white]"/>
+                        <p className="text-[14px] text-[white]">Home</p>
+                    </NavLink>
+                    <Link to="/like" className="flex flex-col items-center">
+                        <div className="relative inline-block">
+                            <AiOutlineHeart className="text-white text-[24px]" />
+
+                            <span className="absolute bottom-3 left-4 w-[15px] h-[15px]  bg-white text-[#1B6392] text-[10px] font-semibold rounded-full flex items-center justify-center">
+                                {heart?.length}
+                            </span>
+                        </div>
+                        <div>
+                            <p className="text-[14px] text-[white]">Like</p>
+                        </div>
+                    </Link>                        
+                    <Link to="/cart" className="flex flex-col items-center">
+                        <div className="relative inline-block">
+                            <FiShoppingCart className="text-white text-[24px]" />
+
+                            <span className="absolute bottom-3 left-5 w-[15px] h-[15px]  bg-white text-[#1B6392] text-[10px] font-semibold rounded-full flex items-center justify-center">
+                                {cart?.length}
+                            </span>
+                        </div>
+                        <div>
+                            <p className="text-[14px] text-[white]">Home</p>
+                        </div>
+                    </Link>
+                    <div className="flex flex-col items-center">
+                        <AiOutlineHome className="text-[24px] text-[white]" />
+                        <p className="text-[14px] text-[white]">Home</p>
+                    </div>
+                </div>
 
             </div>
         </header>
