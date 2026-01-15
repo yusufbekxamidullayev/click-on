@@ -29,7 +29,7 @@ const HomePage = () => {
     return (
         <>
             <section className='pb-[25px]'>
-                <div className='container mx-auto px-2 md:px-4 lg:px-6 2xl:px-33 w-full transition-all duration-500 ease-in-out'>
+                <div className='container mx-auto md:px-4 lg:px-6 2xl:px-33 w-full transition-all duration-500 ease-in-out'>
                     {/* Hero Section */}
                     <div className='flex flex-col lg:flex-row gap-5 mb-8'>
                         <div className='w-full lg:w-auto'>
@@ -97,7 +97,7 @@ const HomePage = () => {
 
                         {/* Side Cards */}
                         <div className='flex flex-col gap-5 w-full lg:w-auto'>
-                            <div className="relative overflow-hidden w-full lg:w-[450px] h-[250px] bg-black rounded-[6px] px-6 sm:px-[40px] py-[40px] sm:py-[60px]">
+                            <div className="relative overflow-hidden w-full lg:w-[430px] h-[250px] bg-black rounded-[6px] px-6 sm:px-[40px] py-[40px] sm:py-[60px]">
                                 <p className="font-[Public_Sans] text-[#EBC80C] text-[12px] sm:text-[14px] font-[500] leading-[20px] tracking-[0px] uppercase">Summer Sales</p>
                                 <h3 className="font-[Public_Sans] w-[120px] sm:w-[150px] pb-[15px] sm:pb-[20px] pt-[5px] font-[600] text-[20px] sm:text-[24px] leading-[28px] sm:leading-[32px] tracking-[0px] text-[white]">New Google Pixel 6 Pro</h3>
                                 <a className="bg-[#FA8232] hover:bg-[black] border-2 border-black hover:border-[#FA8232] inline-flex rounded-[3px] text-[white] uppercase items-center gap-[10px] px-[16px] sm:px-[20px] py-[6px] sm:py-[8px]" href="/shop" data-discover="true">
@@ -114,7 +114,7 @@ const HomePage = () => {
                                 </div>
                             </div>
 
-                            <div className="flex flex-row-reverse justify-between overflow-hidden w-full lg:w-[450px] h-[250px] bg-[#F2F4F5] rounded-[6px] px-6 sm:px-[40px] py-[30px] sm:py-[40px]">
+                            <div className="flex flex-row-reverse justify-between overflow-hidden w-full lg:w-[430px] h-[250px] bg-[#F2F4F5] rounded-[6px] px-6 sm:px-[40px] py-[30px] sm:py-[40px]">
                                 <div className="w-[120px] sm:w-[150px]">
                                     <h3 className="font-[Public_Sans] pb-[10px] pt-[5px] font-[600] text-[20px] sm:text-[24px] leading-[28px] sm:leading-[32px] tracking-[0px] text-[black]">Xiaomi FlipBuds Pro</h3>
                                     <p className="font-[Public_Sans] pb-[10px] text-[#2DA5F3] font-[600] text-[16px] sm:text-[18px] leading-[24px] tracking-[0px]">$299 USD</p>
