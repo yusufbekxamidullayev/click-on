@@ -43,7 +43,7 @@ const ShopCategorySwiper = () => {
                 spaceBetween={15}
                 slidesPerView={6}
                 breakpoints={{
-                    0: { slidesPerView: 1 },
+                    0: { slidesPerView: 2 },
                     480: { slidesPerView: 2 },
                     768: { slidesPerView: 3 },
                     1024: { slidesPerView:6 },
@@ -52,7 +52,7 @@ const ShopCategorySwiper = () => {
                 {slicedProducts?.map((el) => (
                     <SwiperSlide key={el.id}>
                         <Link to={`/products/${el.id}`}>
-                            <div className="w-[200px] h-[230px] rounded-[4px] border-[1px] border-[#E4E7E9] pt-[20px] flex items-center flex-col">
+                            <div className="max-w-[200px] h-[230px] rounded-[4px] border-[1px] border-[#E4E7E9] pt-[20px] flex items-center flex-col">
                                 <img
                                     className="w-[148px] h-[148px] object-contain"
                                     src={el.thumbnail}
