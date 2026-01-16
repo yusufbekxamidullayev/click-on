@@ -97,7 +97,7 @@ const HomePage = () => {
                         </div>
 
                         {/* Side Cards */}
-                        <div className='flex flex-col gap-5 w-full sm:flex-row w-auto justify-between'>
+                        <div className='flex flex-col gap-5 w-full sm:flex-row w-auto lg:flex-col'>
                             <div className="relative overflow-hidden w-full lg:w-[430px] h-[250px] bg-black rounded-[6px] px-6 sm:px-[40px] py-[40px] sm:py-[60px]">
                                 <p className="font-[Public_Sans] text-[#EBC80C] text-[12px] sm:text-[14px] font-[500] leading-[20px] tracking-[0px] uppercase">Summer Sales</p>
                                 <h3 className="font-[Public_Sans] w-[120px] sm:w-[150px] pb-[15px] sm:pb-[20px] pt-[5px] font-[600] text-[20px] sm:text-[24px] leading-[28px] sm:leading-[32px] tracking-[0px] text-[white]">New Google Pixel 6 Pro</h3>
