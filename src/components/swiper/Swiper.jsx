@@ -12,7 +12,7 @@ import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 const ShopCategorySwiper = () => {
     const { data } = useGet({ url: "products?limit=194" });
     const products = data?.products;
-    const slicedProducts = products?.slice(120, 130)
+    const slicedProducts = products?.slice(120, 130);
 
     return (
         <div className="container mx-auto px-2 sm:px-0 2xl:px-32 mt-5 sm:mt-10 relative">
@@ -21,18 +21,24 @@ const ShopCategorySwiper = () => {
             </h1>
 
             {/* Navigation Buttons */}
-            <div className="hidden sm:flex category-prev absolute -left-5 top-[55%] z-10">
+            <div className="category-prev absolute -left-2 top-[55%] z-10 sm:-left-5 cursor-pointer">
                 <button className="w-10 h-10 rounded-full bg-orange-500 text-white flex items-center justify-center shadow-md">
-                    <FaArrowLeftLong />
+                    <FaArrowLeftLong className="text-[12px] sm:text-[16px]" />
                 </button>
             </div>
-            <div className="hidden sm:flex category-next absolute -right-5 top-[55%] z-10">
+            <div className="category-next absolute -right-2 top-[55%] z-10 sm:-right-5 cursor-pointer">
                 <button className="w-10 h-10 rounded-full bg-orange-500 text-white flex items-center justify-center shadow-md">
-                    <FaArrowRightLong />
+                    <FaArrowRightLong className="text-[12px] sm:text-[16px]" />
                 </button>
             </div>
 
             <Swiper
+                modules={[Navigation, Autoplay]}
+                navigation={{
+                    prevEl: '.category-prev',
+                    nextEl: '.category-next',
+                }}
+                loop={true}
                 spaceBetween={20}
                 breakpoints={{
                     320: {
@@ -57,7 +63,6 @@ const ShopCategorySwiper = () => {
                     },
                 }}
             >
-
                 {slicedProducts?.map((el) => (
                     <SwiperSlide key={el.id}>
                         <Link to={`/products/${el.id}`}>
@@ -67,14 +72,12 @@ const ShopCategorySwiper = () => {
                                     src={el.thumbnail}
                                     alt={el.title}
                                 />
-
                                 <p className="text-center text-[14px] sm:text-[15px] md:text-[16px] font-semibold text-[#191C1F] pt-3 line-clamp-1">
                                     {el.title}
                                 </p>
                             </div>
                         </Link>
                     </SwiperSlide>
-
                 ))}
             </Swiper>
         </div>

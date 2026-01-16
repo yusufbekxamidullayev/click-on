@@ -2,13 +2,13 @@ import { FiArrowRight } from "react-icons/fi";
 
 const Footer = () => {
     return (
-        <footer className="w-full">
+        <footer className="w-full pb-10 sm:pb-0">
 
             {/* ===== NEWSLETTER SECTION ===== */}
             <section className="bg-[#1B6392] text-white py-20">
                 <div className="container mx-auto px-2 md:px-0 2xl:px-33 text-center">
 
-                    <h2 className="text-3xl font-semibold mb-3">
+                    <h2 className="text-2xl font-semibold mb-3 sm:text-3xl">
                         Subscribe to our newsletter
                     </h2>
 

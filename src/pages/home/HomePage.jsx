@@ -32,8 +32,8 @@ const HomePage = () => {
             <section className='pb-[25px]'>
                 <div className='container mx-auto px-2 md:px-0 2xl:px-33 w-full transition-all duration-500 ease-in-out'>
                     {/* Hero Section */}
-                    <div className='flex flex-col lg:flex-row gap-5 mb-8'>
-                        <div className='w-full lg:w-auto'>
+                    <div className='flex flex-col xl:flex-row gap-5 mb-8'>
+                        <div className=''>
                             <Swiper
                                 effect="fade"
                                 loop
@@ -43,7 +43,7 @@ const HomePage = () => {
                                 className="w-full lg:w-[820px] h-[300px] sm:h-[400px] lg:h-[520px] rounded-md overflow-hidden mb-[30px]"
                             >
                                 <SwiperSlide>
-                                    <div className="flex flex-col md:flex-row items-center justify-between h-full bg-[#F2F4F5] px-6 md:px-12 lg:px-16 py-8 md:py-0">
+                                    <div className="flex flex-col sm:flex-row items-center justify-between h-full bg-[#F2F4F5] px-6 md:px-12 lg:px-16 py-8 md:py-0">
                                         <div className='max-w-full md:max-w-[400px]'>
                                             <p className="text-xs sm:text-sm text-[#2DA5F3] font-medium">
                                                 THE BEST PLACE TO PLAY
@@ -62,14 +62,14 @@ const HomePage = () => {
 
                                         <img
                                             src="/station.png"
-                                            className="h-[200px] hidden sm:h-[300px] inline-block lg:h-[420px] object-contain mt-6 md:mt-0"
+                                            className="h-[200px] hidden sm:block sm:h-[300px] lg:h-[420px] object-contain mt-6 md:mt-0"
                                             alt=""
                                         />
                                     </div>
                                 </SwiperSlide>
 
                                 <SwiperSlide>
-                                    <div className="flex flex-col md:flex-row items-center justify-between h-full bg-[#F2F4F5] px-6 md:px-12 lg:px-16 py-8 md:py-0">
+                                    <div className="flex flex-col sm:flex-row items-center justify-between h-full bg-[#F2F4F5] px-6 md:px-12 lg:px-16 py-8 md:py-0">
                                         <div className='max-w-full md:max-w-[400px]'>
                                             <p className="text-xs sm:text-sm text-[#2DA5F3] font-medium">
                                                 THE BEST PLACE TO PLAY
@@ -88,7 +88,7 @@ const HomePage = () => {
 
                                         <img
                                             src="/pls.png"
-                                            className="h-[200px] sm:h-[300px] lg:h-[420px] object-contain mt-6 md:mt-0"
+                                            className="h-[200px] hidden sm:block sm:h-[300px] lg:h-[420px] object-contain mt-6 md:mt-0"
                                             alt=""
                                         />
                                     </div>
@@ -97,7 +97,7 @@ const HomePage = () => {
                         </div>
 
                         {/* Side Cards */}
-                        <div className='flex flex-col gap-5 w-full lg:w-auto'>
+                        <div className='flex flex-col gap-5 w-full sm:flex-row w-auto justify-between'>
                             <div className="relative overflow-hidden w-full lg:w-[430px] h-[250px] bg-black rounded-[6px] px-6 sm:px-[40px] py-[40px] sm:py-[60px]">
                                 <p className="font-[Public_Sans] text-[#EBC80C] text-[12px] sm:text-[14px] font-[500] leading-[20px] tracking-[0px] uppercase">Summer Sales</p>
                                 <h3 className="font-[Public_Sans] w-[120px] sm:w-[150px] pb-[15px] sm:pb-[20px] pt-[5px] font-[600] text-[20px] sm:text-[24px] leading-[28px] sm:leading-[32px] tracking-[0px] text-[white]">New Google Pixel 6 Pro</h3>
@@ -131,7 +131,7 @@ const HomePage = () => {
                     </div>
 
                     {/* Features Section */}
-                    <div className='flex flex-col sm:flex-row flex-wrap items-center justify-center mb-[50px] gap-4 sm:gap-6 lg:gap-15 border-[1px] border-[#E4E7E9] py-[25px] px-4'>
+                    <div className='grid grid-cols-2 sm:flex flex-row flex-wrap items-center justify-center mb-[50px] gap-4 sm:gap-6 lg:gap-15 border-[1px] border-[#E4E7E9] py-[25px] px-4'>
                         <div className='w-full sm:w-[250px] h-[50px] flex items-center gap-3 sm:gap-5 sm:border-r-[1px] border-[#E4E7E9]'>
                             <img src="/Package.png" alt="" className='w-[30px] sm:w-auto' />
                             <div>
@@ -163,11 +163,11 @@ const HomePage = () => {
                     </div>
 
                     {/* Best Deals Header */}
-                    <div className='flex flex-col sm:flex-row items-start sm:items-center justify-between pb-[25px] gap-4'>
-                        <div className='flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6'>
+                    <div className='flex items-start sm:items-center justify-between pb-[25px] gap-4'>
+                        <div className='flex items-start sm:items-center gap-4 sm:gap-6'>
                             <h1 className='text-[20px] sm:text-[24px] font-medium'>Best Deals</h1>
-                            <p className='text-[14px] sm:text-[16px] text-[#000000]'>Deals ends in</p>
-                            <button className='w-[150px] sm:w-[175px] h-[35px] bg-[#F3DE6D] rounded-[3px] flex items-center gap-[4px] sm:gap-[6px] justify-center'>
+                            <p className='hidden sm:text-[14px] sm:text-[16px] text-[#000000]'>Deals ends in</p>
+                            <button className='hidden sm:w-[150px] sm:w-[175px] h-[35px] bg-[#F3DE6D] rounded-[3px] flex items-center gap-[4px] sm:gap-[6px] justify-center'>
                                 <p className='text-[14px] sm:text-[16px] text-[#191C1F]'>16d</p>
                                 <p className='text-[14px] sm:text-[16px] text-[#191C1F]'>:</p>
                                 <p className='text-[14px] sm:text-[16px] text-[#191C1F]'>21h</p>
