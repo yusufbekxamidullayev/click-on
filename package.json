@@ -12,6 +12,8 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.11.2",
     "@tailwindcss/vite": "^4.1.18",
+    "@tanstack/react-query": "^5.90.18",
+    "add": "^2.0.6",
     "axios": "^1.13.2",
     "lucide-react": "^0.562.0",
     "react": "^19.2.0",
@@ -22,7 +24,8 @@
     "react-toast": "^1.0.3",
     "react-toastify": "^11.0.5",
     "swiper": "^12.0.3",
-    "tailwindcss": "^4.1.18"
+    "tailwindcss": "^4.1.18",
+    "yarn": "^1.22.22"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",

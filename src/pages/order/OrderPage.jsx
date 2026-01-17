@@ -444,7 +444,7 @@ const OrderPage = () => {
                                 </div>
                             </div>
 
-                            <div className="flex items-center gap-2">
+                            {/* <div className="flex items-center gap-2">
                                 <input
                                     type="checkbox"
                                     id="different-address"
@@ -456,7 +456,7 @@ const OrderPage = () => {
                                 <label htmlFor="different-address" className="text-sm text-gray-700">
                                     Ship to different address
                                 </label>
-                            </div>
+                            </div> */}
                         </div>
 
                         {/* Payment Option */}
