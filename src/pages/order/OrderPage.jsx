@@ -3,11 +3,15 @@ import { BsCurrencyDollar } from 'react-icons/bs';
 import { CiCreditCard1 } from 'react-icons/ci';
 import { FaArrowRight } from 'react-icons/fa6';
 import { useSelector } from 'react-redux';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 const OrderPage = () => {
     const cart = useSelector((state) => state.cart.cart);
+    const navigate = useNavigate();
     const [selectedPayment, setSelectedPayment] = useState('cash');
-    
+    const [errors, setErrors] = useState({});
 
     const [formData, setFormData] = useState({
         firstName: '',
@@ -34,6 +38,72 @@ const OrderPage = () => {
             ...prev,
             [name]: type === 'checkbox' ? checked : value
         }));
+
+        // Xatolikni olib tashlash
+        if (errors[name]) {
+            setErrors(prev => ({
+                ...prev,
+                [name]: ''
+            }));
+        }
+    };
+
+    const validateForm = () => {
+        const newErrors = {};
+
+        // Asosiy maydonlarni tekshirish
+        if (!formData.firstName.trim()) {
+            newErrors.firstName = 'Ism kiritish majburiy';
+        }
+
+        if (!formData.address.trim()) {
+            newErrors.address = 'Manzil kiritish majburiy';
+        }
+
+        if (!formData.region) {
+            newErrors.region = 'Viloyatni tanlang';
+        }
+
+        if (!formData.city) {
+            newErrors.city = 'Shaharni tanlang';
+        }
+
+        if (!formData.email.trim()) {
+            newErrors.email = 'Email kiritish majburiy';
+        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+            newErrors.email = 'Email formati noto\'g\'ri';
+        }
+
+        if (!formData.phone.trim()) {
+            newErrors.phone = 'Telefon raqam kiritish majburiy';
+        } else if (!/^\+?[\d\s-]{9,}$/.test(formData.phone)) {
+            newErrors.phone = 'Telefon raqam formati noto\'g\'ri';
+        }
+
+        // Karta to'lovi tanlangan bo'lsa
+        if (selectedPayment === 'card') {
+            if (!formData.cardName.trim()) {
+                newErrors.cardName = 'Karta egasi ismini kiriting';
+            }
+            if (!formData.cardNumber.trim()) {
+                newErrors.cardNumber = 'Karta raqamini kiriting';
+            }
+            if (!formData.expiry.trim()) {
+                newErrors.expiry = 'Amal qilish muddatini kiriting';
+            }
+            if (!formData.cvc.trim()) {
+                newErrors.cvc = 'CVC kodni kiriting';
+            }
+        }
+
+        // Savat bo'sh emasligini tekshirish
+        if (cart.length === 0) {
+            toast.error('❌ Savatingiz bo\'sh! Mahsulot qo\'shing.');
+            return false;
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
     };
 
     const calculateSubtotal = () => {
@@ -47,13 +117,20 @@ const OrderPage = () => {
     const total = subtotal - discount + tax;
 
     const handlePlaceOrder = async () => {
+        // Validatsiya
+        if (!validateForm()) {
+            toast.error("Iltimos, barcha majburiy maydonlarni to'ldiring!");
+            return;
+        }
+
         // Telegram uchun xabar tayyorlash
         let message = "";
 
         // Mijoz ma'lumotlari
         message += `👤 *Mijoz ma'lumotlari:*\n`;
         message += `Ism: ${formData.firstName} ${formData.lastName}\n`;
-        message += `Telefon: ${formData.phone}\n\n`;
+        message += `Telefon: ${formData.phone}\n`;
+        message += `Email: ${formData.email}\n\n`;
 
         // Manzil
         message += `📍 *Yetkazib berish manzili:*\n`;
@@ -95,7 +172,7 @@ const OrderPage = () => {
 
         try {
             // Telegramga yuborish
-            const BOT_TOKEN = "8533148770:AAHYciMYBIJWMTEWB_KcyBEk69HsEbvlG-0"
+            const BOT_TOKEN = "8533148770:AAHYciMYBIJWMTEWB_KcyBEk69HsEbvlG-0";
             const CHAT_ID = "8382789935";
 
             const response = await fetch(
@@ -116,7 +193,13 @@ const OrderPage = () => {
             const result = await response.json();
 
             if (result.ok) {
-                alert("✅ Buyurtma muvaffaqiyatli yuborildi!");
+                // Toast xabari
+                toast.success('Buyurtma muvaffaqiyatli yuborildi!', {
+                    position: "top-right",
+                    autoClose: 3000,
+                });
+
+                // Formani tozalash
                 setFormData({
                     firstName: '',
                     lastName: '',
@@ -134,15 +217,21 @@ const OrderPage = () => {
                     expiry: '',
                     cvc: '',
                     notes: ''
-                })
+                });
+
+                // Success sahifasiga o'tkazish (2 soniyadan keyin)
+                setTimeout(() => {
+                    navigate('/checkout');
+                }, 500);
+
                 console.log("Telegram response:", result);
             } else {
                 console.error("Telegram error:", result);
-                alert("Xatolik yuz berdi!");
+                toast.error('❌ Xatolik yuz berdi! Qaytadan urinib ko\'ring.');
             }
         } catch (error) {
             console.error("Error:", error);
-            alert("❌ Yuborishda xatolik: " + error.message);
+            toast.error(`❌ Yuborishda xatolik: ${error.message}`);
         }
     };
 
@@ -171,6 +260,20 @@ const OrderPage = () => {
 
     return (
         <div className="min-h-screen bg-gray-50 py-8">
+            {/* Toast Container */}
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={true}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
+
             <div className="container mx-auto px-4 max-w-7xl">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {/* Left Side - Billing Information */}
@@ -190,8 +293,12 @@ const OrderPage = () => {
                                         value={formData.firstName}
                                         onChange={handleInputChange}
                                         placeholder="First name"
-                                        className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className={`w-full px-4 py-2.5 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.firstName ? 'border-red-500' : 'border-gray-300'
+                                            }`}
                                     />
+                                    {errors.firstName && (
+                                        <p className="text-red-500 text-xs mt-1">{errors.firstName}</p>
+                                    )}
                                 </div>
                                 <div>
                                     <label className="block text-sm text-gray-600 mb-2">Familiya</label>
@@ -227,8 +334,12 @@ const OrderPage = () => {
                                     value={formData.address}
                                     onChange={handleInputChange}
                                     placeholder="Address"
-                                    className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className={`w-full px-4 py-2.5 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.address ? 'border-red-500' : 'border-gray-300'
+                                        }`}
                                 />
+                                {errors.address && (
+                                    <p className="text-red-500 text-xs mt-1">{errors.address}</p>
+                                )}
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
@@ -244,32 +355,44 @@ const OrderPage = () => {
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="block text-sm text-gray-600 mb-2">Viloyat</label>
+                                    <label className="block text-sm text-gray-600 mb-2">
+                                        Viloyat <span className="text-red-500">*</span>
+                                    </label>
                                     <select
                                         name="region"
                                         value={formData.region}
                                         onChange={handleInputChange}
-                                        className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className={`w-full px-4 py-2.5 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.region ? 'border-red-500' : 'border-gray-300'
+                                            }`}
                                     >
                                         <option value="">Tanlang...</option>
                                         {uzbekistanRegions.map((region) => (
                                             <option key={region} value={region}>{region}</option>
                                         ))}
                                     </select>
+                                    {errors.region && (
+                                        <p className="text-red-500 text-xs mt-1">{errors.region}</p>
+                                    )}
                                 </div>
                                 <div>
-                                    <label className="block text-sm text-gray-600 mb-2">Shahar</label>
+                                    <label className="block text-sm text-gray-600 mb-2">
+                                        Shahar <span className="text-red-500">*</span>
+                                    </label>
                                     <select
                                         name="city"
                                         value={formData.city}
                                         onChange={handleInputChange}
-                                        className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className={`w-full px-4 py-2.5 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.city ? 'border-red-500' : 'border-gray-300'
+                                            }`}
                                     >
                                         <option value="">Tanlang...</option>
                                         {uzbekistanCities['Toshkent shahar']?.map((city) => (
                                             <option key={city} value={city}>{city}</option>
                                         ))}
                                     </select>
+                                    {errors.city && (
+                                        <p className="text-red-500 text-xs mt-1">{errors.city}</p>
+                                    )}
                                 </div>
                                 <div>
                                     <label className="block text-sm text-gray-600 mb-2">Zip Code</label>
@@ -295,8 +418,12 @@ const OrderPage = () => {
                                         value={formData.email}
                                         onChange={handleInputChange}
                                         placeholder="Email"
-                                        className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className={`w-full px-4 py-2.5 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.email ? 'border-red-500' : 'border-gray-300'
+                                            }`}
                                     />
+                                    {errors.email && (
+                                        <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+                                    )}
                                 </div>
                                 <div>
                                     <label className="block text-sm text-gray-600 mb-2">
@@ -308,8 +435,12 @@ const OrderPage = () => {
                                         value={formData.phone}
                                         onChange={handleInputChange}
                                         placeholder="Phone Number"
-                                        className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className={`w-full px-4 py-2.5 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.phone ? 'border-red-500' : 'border-gray-300'
+                                            }`}
                                     />
+                                    {errors.phone && (
+                                        <p className="text-red-500 text-xs mt-1">{errors.phone}</p>
+                                    )}
                                 </div>
                             </div>
 
@@ -330,14 +461,14 @@ const OrderPage = () => {
 
                         {/* Payment Option */}
                         <div className="bg-white rounded-lg shadow p-6">
-                            <h2 className="text-xl font-semibold mb-6  pb-3">Payment Option</h2>
+                            <h2 className="text-xl font-semibold mb-6 pb-3">Payment Option</h2>
 
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                                 <button
                                     onClick={() => setSelectedPayment('cash')}
                                     className={`flex flex-col items-center justify-center p-4 border-2 rounded-lg transition ${selectedPayment === 'cash'
-                                        ? 'border-orange-500 bg-orange-50'
-                                        : 'border-gray-200 hover:border-gray-300'
+                                            ? 'border-orange-500 bg-orange-50'
+                                            : 'border-gray-200 hover:border-gray-300'
                                         }`}
                                 >
                                     <div className="text-3xl mb-2 text-[#FA8232]"><BsCurrencyDollar /></div>
@@ -345,31 +476,10 @@ const OrderPage = () => {
                                 </button>
 
                                 <button
-                                    onClick={() => setSelectedPayment('venmo')}
-                                    className={`flex flex-col items-center justify-center p-4 border-2 rounded-lg transition ${selectedPayment === 'venmo'
-                                        ? 'border-orange-500 bg-orange-50'
-                                        : 'border-gray-200 hover:border-gray-300'
-                                        }`}
-                                >
-                                    <div className="text-3xl mb-2 text-blue-600 font-bold"><img src="/Icon.png" alt="" /></div>
-                                    <span className="text-sm font-medium">Venmo</span>
-                                </button>
-
-                                <button
-                                    onClick={() => setSelectedPayment('paypal')}
-                                    className={`flex flex-col items-center justify-center p-4 border-2 rounded-lg transition ${selectedPayment === 'paypal'
-                                        ? 'border-orange-500 bg-orange-50'
-                                        : 'border-gray-200 hover:border-gray-300'
-                                        }`}
-                                >
-                                    <div className="text-3xl mb-2 text-blue-700 font-bold"><img src="/image 9.png" alt="" /></div>
-                                    <span className="text-sm font-medium">Paypal</span>
-                                </button>
-                                <button
                                     onClick={() => setSelectedPayment('card')}
                                     className={`flex flex-col items-center justify-center p-4 border-2 rounded-lg transition ${selectedPayment === 'card'
-                                        ? 'border-orange-500 bg-orange-50'
-                                        : 'border-gray-200 hover:border-gray-300'
+                                            ? 'border-orange-500 bg-orange-50'
+                                            : 'border-gray-200 hover:border-gray-300'
                                         }`}
                                 >
                                     <div className="text-3xl mb-2 text-[#FA8232]"><CiCreditCard1 /></div>
@@ -380,49 +490,73 @@ const OrderPage = () => {
                             {selectedPayment === 'card' && (
                                 <div className="space-y-4 border-t pt-6">
                                     <div>
-                                        <label className="block text-sm text-gray-600 mb-2">Karta egasi</label>
+                                        <label className="block text-sm text-gray-600 mb-2">
+                                            Karta egasi <span className="text-red-500">*</span>
+                                        </label>
                                         <input
                                             type="text"
                                             name="cardName"
                                             value={formData.cardName}
                                             onChange={handleInputChange}
                                             placeholder="Name on Card"
-                                            className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            className={`w-full px-4 py-2.5 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.cardName ? 'border-red-500' : 'border-gray-300'
+                                                }`}
                                         />
+                                        {errors.cardName && (
+                                            <p className="text-red-500 text-xs mt-1">{errors.cardName}</p>
+                                        )}
                                     </div>
                                     <div>
-                                        <label className="block text-sm text-gray-600 mb-2">Karta raqami</label>
+                                        <label className="block text-sm text-gray-600 mb-2">
+                                            Karta raqami <span className="text-red-500">*</span>
+                                        </label>
                                         <input
                                             type="text"
                                             name="cardNumber"
                                             value={formData.cardNumber}
                                             onChange={handleInputChange}
                                             placeholder="Card Number"
-                                            className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            className={`w-full px-4 py-2.5 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.cardNumber ? 'border-red-500' : 'border-gray-300'
+                                                }`}
                                         />
+                                        {errors.cardNumber && (
+                                            <p className="text-red-500 text-xs mt-1">{errors.cardNumber}</p>
+                                        )}
                                     </div>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-sm text-gray-600 mb-2">Amal qilish muddati</label>
+                                            <label className="block text-sm text-gray-600 mb-2">
+                                                Amal qilish muddati <span className="text-red-500">*</span>
+                                            </label>
                                             <input
                                                 type="text"
                                                 name="expiry"
                                                 value={formData.expiry}
                                                 onChange={handleInputChange}
                                                 placeholder="MM/YY"
-                                                className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                className={`w-full px-4 py-2.5 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.expiry ? 'border-red-500' : 'border-gray-300'
+                                                    }`}
                                             />
+                                            {errors.expiry && (
+                                                <p className="text-red-500 text-xs mt-1">{errors.expiry}</p>
+                                            )}
                                         </div>
                                         <div>
-                                            <label className="block text-sm text-gray-600 mb-2">CVC</label>
+                                            <label className="block text-sm text-gray-600 mb-2">
+                                                CVC <span className="text-red-500">*</span>
+                                            </label>
                                             <input
                                                 type="text"
                                                 name="cvc"
                                                 value={formData.cvc}
                                                 onChange={handleInputChange}
                                                 placeholder="CVC"
-                                                className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                className={`w-full px-4 py-2.5 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.cvc ? 'border-red-500' : 'border-gray-300'
+                                                    }`}
                                             />
+                                            {errors.cvc && (
+                                                <p className="text-red-500 text-xs mt-1">{errors.cvc}</p>
+                                            )}
                                         </div>
                                     </div>
                                 </div>

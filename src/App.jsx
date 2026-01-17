@@ -9,6 +9,7 @@ import ProductsPage from './pages/products/ProductsPage'
 import RegisterPage from './pages/register/RegisterPage'
 import SinglePage from './pages/single/SinglePage'
 import OrderPage from './pages/order/OrderPage'
+import CheckoutPage from './pages/checkout/CheckoutPage'
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
           <Route path='register' element={<RegisterPage/>} />
           <Route path='products/:id' element={<SinglePage/>} />
           <Route path='order' element={<OrderPage/>}/>
+          <Route path='checkout' element={<CheckoutPage/>}/>
         </Route>
       </Routes>
     </BrowserRouter>

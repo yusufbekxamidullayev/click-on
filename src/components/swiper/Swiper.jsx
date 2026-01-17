@@ -21,12 +21,12 @@ const ShopCategorySwiper = () => {
             </h1>
 
             {/* Navigation Buttons */}
-            <div className="category-prev absolute -left-2 top-[55%] z-10 sm:-left-5 cursor-pointer">
+            <div className="category-prev absolute -left-2 top-[55%] z-10 lg:-left-0  xl:-left-5 cursor-pointer">
                 <button className="w-10 h-10 rounded-full bg-orange-500 text-white flex items-center justify-center shadow-md">
-                    <FaArrowLeftLong className="text-[12px] sm:text-[16px]" />
+                    <FaArrowLeftLong className="text-[12px] md:text-[16px]" />
                 </button>
             </div>
-            <div className="category-next absolute -right-2 top-[55%] z-10 sm:-right-5 cursor-pointer">
+            <div className="category-next absolute -right-0 top-[55%] z-10 lg:-right-0 xl:-right-5 cursor-pointer">
                 <button className="w-10 h-10 rounded-full bg-orange-500 text-white flex items-center justify-center shadow-md">
                     <FaArrowRightLong className="text-[12px] sm:text-[16px]" />
                 </button>
