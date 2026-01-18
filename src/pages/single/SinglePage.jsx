@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom'
 import useGet from '../../hooks/useGet';
+import { useQuery } from '@tanstack/react-query'
 import React, { useState } from 'react';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -11,16 +12,19 @@ import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
 import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
 const SinglePage = () => {
-    const [thumbsSwiper, setThumbsSwiper] = useState(null)
-    const { id } = useParams()
-    const { data } = useGet({ url: `products/${id}` })
+    // const [thumbsSwiper, setThumbsSwiper] = useState(null)
+    // const { id } = useParams()
+    // const { data } = useGet({ url: `products/${id}` })
+
+    // const {data , isLoading , error} = useQuery({
+
+    // })
 
     return (
         <section>
-            <div className='container mx-auto'>
+            {/* <div className='container mx-auto'>
                 <div className="max-w-[520px]">
 
-                    {/* MAIN IMAGE */}
                     <Swiper
                         loop
                         spaceBetween={10}
@@ -42,7 +46,6 @@ const SinglePage = () => {
                         ))}
                     </Swiper>
 
-                    {/* THUMBNAILS */}
                     <Swiper
                         onSwiper={setThumbsSwiper}
                         spaceBetween={12}
@@ -66,7 +69,7 @@ const SinglePage = () => {
                     </Swiper>
 
                 </div>
-            </div>
+            </div> */}
         </section>
     )
 }

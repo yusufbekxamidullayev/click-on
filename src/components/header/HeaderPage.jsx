@@ -9,6 +9,8 @@ import { AiOutlineHeart, AiOutlineHome, AiOutlineUser } from "react-icons/ai";
 import { HiBars3 } from "react-icons/hi2";
 import { useSelector } from "react-redux";
 import { FaRegHeart } from "react-icons/fa";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 const Header = () => {
     const cart = useSelector((state) => state.cart.cart)
@@ -16,6 +18,17 @@ const Header = () => {
     const [language, setLanguage] = useState("Eng");
     const [currency, setCurrency] = useState("USD");
     const [hideTopBar, setHideTopBar] = useState(false);
+    const [search, setSearch] = useState("");
+
+    const getSearch = async() => await axios.get(`https://dummyjson.com/products/search?q=${search}`)
+
+    const {data , isLoading} = useQuery({
+        queryKey: ["products" , search],
+        queryFn: getSearch,
+        staleTime: 60*1000
+    })
+
+    const searchProducts = data?.data?.products
 
     const lastScrollY = useRef(0);
     const upScroll = useRef(0);
@@ -121,10 +134,51 @@ const Header = () => {
                     <div className="relative hidden md:block">
                         <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg" />
                         <input
+                            onChange={(e) => setSearch(e.target.value)}
                             type="search"
                             placeholder="Search for anything..."
                             className="w-[550px] h-[38px] bg-white rounded pl-10 pr-3 outline-none"
                         />
+
+                        {/* Dropdown */}
+                        {search === "" ? ("") :
+                            <div className="absolute w-full mt-2 bg-white rounded-lg shadow-2xl border border-gray-100 overflow-hidden z-50 max-h-[400px] overflow-y-auto">
+                                {searchProducts && searchProducts.length > 0 ? (
+                                    searchProducts.map((el) => (
+                                        <div key={el.id} className="hover:bg-gray-50 transition cursor-pointer border-b border-gray-100 last:border-b-0">
+                                            <div className="p-3 flex items-center gap-3">
+                                                <img
+                                                    src={el.thumbnail || el.image}
+                                                    alt={el.title}
+                                                    className="w-14 h-14 rounded-lg object-cover"
+                                                />
+                                                <div className="flex-1">
+                                                    <h4 className="font-semibold text-gray-800 text-sm mb-1">
+                                                        {el.title || el.name}
+                                                    </h4>
+                                                    <p className="text-xs text-gray-500 line-clamp-1">
+                                                        {el.description || el.category}
+                                                    </p>
+                                                </div>
+                                                <div className="text-blue-600 font-bold text-sm">
+                                                    ${el.price}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))
+                                ) : (
+                                    // Mahsulot topilmaganda
+                                    <div className="p-8 text-center">
+                                        <div className="text-gray-400 text-5xl mb-3">🔍</div>
+                                        <h3 className="text-gray-700 font-semibold mb-1">
+                                            Mahsulot topilmadi
+                                        </h3>
+                                        <p className="text-gray-500 text-sm">
+                                            "{search}" bo'yicha natija yo'q
+                                        </p>
+                                    </div>
+                                )}
+                            </div>}
                     </div>
 
                     <div className="hidden lg:flex gap-5">
@@ -147,12 +201,12 @@ const Header = () => {
                     </div>
 
                     {/* 👇 here */}
-                    <HiBars3 className="block lg:hidden text-white text-3xl" />
+                    {/* <HiBars3 className="block lg:hidden text-white text-3xl" /> */}
                 </div>
 
                 <div className="fixed w-full z-10 bottom-0 bg-[#1B6392] flex items-center justify-between px-2 py-1 shadow-[0_-4px_6px_-2px_rgba(0,0,0,0.25)] shadow-[white] sm:hidden">
                     <NavLink to={"/"} className="flex flex-col items-center">
-                        <AiOutlineHome className="text-[24px] text-[white]"/>
+                        <AiOutlineHome className="text-[24px] text-[white]" />
                         <p className="text-[14px] text-[white]">Home</p>
                     </NavLink>
                     <Link to="/like" className="flex flex-col items-center">
@@ -166,7 +220,7 @@ const Header = () => {
                         <div>
                             <p className="text-[14px] text-[white]">Like</p>
                         </div>
-                    </Link>                        
+                    </Link>
                     <Link to="/cart" className="flex flex-col items-center">
                         <div className="relative inline-block">
                             <FiShoppingCart className="text-white text-[24px]" />
