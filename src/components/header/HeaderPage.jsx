@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import { FaRegHeart } from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { IoSearchOutline } from "react-icons/io5";
 
 const Header = () => {
     const cart = useSelector((state) => state.cart.cart)
@@ -20,12 +21,12 @@ const Header = () => {
     const [hideTopBar, setHideTopBar] = useState(false);
     const [search, setSearch] = useState("");
 
-    const getSearch = async() => await axios.get(`https://dummyjson.com/products/search?q=${search}`)
+    const getSearch = async () => await axios.get(`https://dummyjson.com/products/search?q=${search}`)
 
-    const {data , isLoading} = useQuery({
-        queryKey: ["products" , search],
+    const { data, isLoading } = useQuery({
+        queryKey: ["products", search],
         queryFn: getSearch,
-        staleTime: 60*1000
+        staleTime: 60 * 1000
     })
 
     const searchProducts = data?.data?.products
@@ -145,7 +146,7 @@ const Header = () => {
                             <div className="absolute w-full mt-2 bg-white rounded-lg shadow-2xl border border-gray-100 overflow-hidden z-50 max-h-[400px] overflow-y-auto">
                                 {searchProducts && searchProducts.length > 0 ? (
                                     searchProducts.map((el) => (
-                                        <div key={el.id} className="hover:bg-gray-50 transition cursor-pointer border-b border-gray-100 last:border-b-0">
+                                        <Link to={`/products/${el.id}`} key={el.id} className="hover:bg-gray-50 transition cursor-pointer border-b border-gray-100 last:border-b-0">
                                             <div className="p-3 flex items-center gap-3">
                                                 <img
                                                     src={el.thumbnail || el.image}
@@ -164,7 +165,7 @@ const Header = () => {
                                                     ${el.price}
                                                 </div>
                                             </div>
-                                        </div>
+                                        </Link>
                                     ))
                                 ) : (
                                     // Mahsulot topilmaganda
@@ -197,7 +198,15 @@ const Header = () => {
                             <span className="absolute bottom-5 left-5 w-[20px] h-[20px]  bg-white text-[#1B6392] text-[12px] font-semibold rounded-full flex items-center justify-center">
                                 {heart?.length}
                             </span>
-                        </Link>                        <Link to="/register"><AiOutlineUser className="text-white text-[29px]" /></Link>
+                        </Link> 
+                        <Link to="/search" className="relative inline-block">
+                            <AiOutlineHeart className="text-white text-[29px]" />
+
+                            <span className="absolute bottom-5 left-5 w-[20px] h-[20px]  bg-white text-[#1B6392] text-[12px] font-semibold rounded-full flex items-center justify-center">
+                                {heart?.length}
+                            </span>
+                        </Link> 
+                        <Link to="/register"><AiOutlineUser className="text-white text-[29px]" /></Link>
                     </div>
 
                     {/* 👇 here */}
@@ -221,6 +230,14 @@ const Header = () => {
                             <p className="text-[14px] text-[white]">Like</p>
                         </div>
                     </Link>
+                    <Link to="search" className="flex flex-col items-center">
+                        <div className="relative inline-block">
+                            <IoSearchOutline className="text-white text-[24px]" />
+                        </div>
+                        <div>
+                            <p className="text-[14px] text-[white]">Search</p>
+                        </div>
+                    </Link>
                     <Link to="/cart" className="flex flex-col items-center">
                         <div className="relative inline-block">
                             <FiShoppingCart className="text-white text-[24px]" />
@@ -230,7 +247,7 @@ const Header = () => {
                             </span>
                         </div>
                         <div>
-                            <p className="text-[14px] text-[white]">Home</p>
+                            <p className="text-[14px] text-[white]">Shop</p>
                         </div>
                     </Link>
                     <div className="flex flex-col items-center">

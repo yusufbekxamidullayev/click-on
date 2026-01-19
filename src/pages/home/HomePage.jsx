@@ -16,6 +16,7 @@ import { FaArrowRightLong } from 'react-icons/fa6'
 import { CiCreditCard1, CiTrophy } from 'react-icons/ci'
 import { IoHeadsetOutline } from 'react-icons/io5'
 import ShopCategorySwiper from '../../components/swiper/Swiper'
+import Cards from '../../components/cards/Cards'
 
 
 const HomePage = () => {
@@ -307,6 +308,9 @@ const HomePage = () => {
                                 <img className="w-full h-full object-cover" src="/telefon.png" alt="Shar" />
                             </div>
                         </div>
+                    </div>
+                    <div>
+                        <Cards/>
                     </div>
                 </div>
             </section>

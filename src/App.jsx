@@ -9,6 +9,7 @@ import SinglePage from './pages/single/SinglePage'
 import OrderPage from './pages/order/OrderPage'
 import CheckoutPage from './pages/checkout/CheckoutPage'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import SearchPage from './pages/search/SearchPage'
 
 const queryClient = new QueryClient()
 
@@ -26,6 +27,7 @@ const App = () => {
             <Route path='products/:id' element={<SinglePage />} />
             <Route path='order' element={<OrderPage />} />
             <Route path='checkout' element={<CheckoutPage />} />
+            <Route path='search' element={<SearchPage/>}/>
           </Route>
         </Routes>
       </BrowserRouter>
